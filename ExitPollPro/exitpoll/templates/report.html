@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RKS Data Labs - Detailed Project Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display.swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0f172a;
+            color: #cbd5e1;
+        }
+        .app-grid {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+        .card {
+            background-color: #1e293b;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #334155;
+        }
+        code {
+            background-color: #334155;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #f1f5f9;
+        }
+        @media (max-width: 1024px) {
+            .app-grid { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-grid">
+        <!-- Sidebar -->
+        <aside class="sidebar bg-slate-900 p-6 flex flex-col">
+            <a href="{% url 'ml_dashboard' %}" class="flex items-center space-x-3 mb-8">
+                <svg class="w-10 h-10 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                </svg>
+                <span class="text-2xl font-bold text-white">RKS Data Labs</span>
+            </a>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="p-4 md:p-6 lg:p-8 overflow-y-auto">
+            <header class="mb-6">
+                <h1 class="text-4xl font-extrabold tracking-tight text-white">Comprehensive Project Report</h1>
+                <p class="text-slate-400 mt-2">Exit Poll Election Data Analysis & Prediction</p>
+            </header>
+
+            <nav class="mb-8 flex space-x-6 border-b border-slate-700">
+                <a href="{% url 'ml_dashboard' %}" class="py-2 px-1 border-b-2 border-transparent text-slate-400 hover:text-white hover:border-slate-400 transition-colors">Home</a>
+                <a href="{% url 'report_page' %}" class="py-2 px-1 border-b-2 border-indigo-500 text-white font-semibold">Report</a>
+                <a href="{% url 'feedback_page' %}" class="py-2 px-1 border-b-2 border-transparent text-slate-400 hover:text-white hover:border-slate-400 transition-colors">Feedback</a>
+            </nav>
+
+            <div class="space-y-8 text-slate-300 leading-relaxed">
+                
+                <section class="card">
+                    <h2 class="text-2xl font-bold text-white mb-4">Chapter 1: Project Introduction & Executive Summary</h2>
+                    <p>The "ExitPollPro" project is a comprehensive full-stack web application meticulously engineered to analyze and predict election outcomes by leveraging real-world data. In an era where data is paramount to decision-making, the ability to understand complex electoral trends is invaluable for a wide range of stakeholders, including political analysts, journalists, researchers, and the general public. This project was conceived to address the challenge of demystifying vast and intricate election data, transforming it into an intuitive, interactive, and insightful dashboard experience. By utilizing the publicly available dataset from the 2019 Indian General Election, the application goes beyond simple data visualization. It implements a complete machine learning pipeline to forecast winning parties, thereby providing a robust, dual-purpose tool for both historical analysis and predictive insights. The overarching goal is to make sophisticated data analysis accessible, transparent, and engaging for all users, regardless of their technical background.</p>
+                </section>
+                
+                <section class="card">
+                    <h2 class="text-2xl font-bold text-white mb-4">Chapter 2: The Bedrock of Trust: ECI's Data Collection Process (A Deep Dive)</h2>
+                    <p class="mb-4">The credibility of this entire project hinges on the quality and integrity of the source data. The electoral data from India is globally recognized for its trustworthiness, a reputation earned through the Election Commission of India's (ECI) meticulous, multi-layered, and transparent operational framework. A deep understanding of this process is fundamental to building confidence in our analytical outcomes.</p>
+                    
+                    <h3 class="text-xl font-semibold text-indigo-400 mb-3 mt-6">A Detailed Examination of Data Integrity Stages:</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-bold text-white">Stage 1: Foundational Accuracy - The Electoral Roll</h4>
+                            <p class="text-sm">The process of ensuring data accuracy begins months, if not years, before a single vote is cast. The ECI undertakes the monumental task of creating and maintaining the Electoral Roll. This is not a one-time activity but a continuous process involving Booth Level Officers (BLOs) who conduct door-to-door verification. Their mandate is to ensure every eligible citizen (who has attained the age of 18) is registered, while also systematically removing names of deceased or shifted voters. The draft roll is then published and made available for public scrutiny, allowing for claims and objections. This transparent, citizen-involved process ensures that the foundational list of voters is as accurate and up-to-date as humanly possible.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Stage 2: Tamper-Proof Technology & The Chain of Trust</h4>
+                            <p class="text-sm">The ECI employs Electronic Voting Machines (EVMs) which are designed to be robust and secure. Crucially, EVMs are standalone devices, not connected to any network (neither wired nor wireless), making them immune to remote hacking. To further enhance transparency and trust, the Voter Verifiable Paper Audit Trail (VVPAT) system is attached to every EVM. When a voter casts their vote, the VVPAT prints a paper slip containing the serial number, name, and symbol of the chosen candidate. This slip is visible to the voter for seven seconds through a glass screen before it is cut and drops into a sealed box. This provides a physical, auditable trail that can be used to verify the electronic count, creating a vital link in the chain of trust.</p>
+                        </div>
+                         <div>
+                            <h4 class="font-bold text-white">Stage 3: Ensuring Unbiased Deployment through Multi-Layered Randomization</h4>
+                            <p class="text-sm">To eliminate any possibility of pre-planned manipulation or biased allocation of machines, EVMs undergo a rigorous, two-stage randomization process. This is conducted using specialized software in the presence of representatives from all recognized political parties. The first randomization allocates a batch of EVMs from a district storage facility to a specific Assembly Constituency. The second randomization, conducted closer to the polling date, allocates a specific EVM from that batch to a specific polling station. This ensures that no one, including election officials, knows in advance which machine will be used at which polling booth.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Stage 4: Procedural Integrity and Documentation on Polling Day</h4>
+                            <p class="text-sm">On the morning of the poll, before voting officially begins, a mock poll is conducted by the Presiding Officer. A minimum of 50 votes are cast in front of the polling agents of the candidates to demonstrate that the EVM is functioning correctly and is not pre-loaded with any votes. At the end of the polling day, the Presiding Officer presses the "Close" button on the EVM's control unit, after which no more votes can be recorded. Following this, the crucial document **Form 17C** is meticulously filled out. This form is an account of all votes recorded in the machine. A signed copy of Form 17C is mandatorily provided to the polling agents of every candidate, creating an undeniable paper trail that can be used for verification during counting.</p>
+                        </div>
+                         <div>
+                            <h4 class="font-bold text-white">Stage 5: Secure Custody, Transparent Counting, and Final Declaration</h4>
+                            <p class="text-sm">The sealed EVMs are transported under armed guard to a secure strong room, which is then sealed with double locks. The keys are held by separate officials, and the room is guarded 24/7 by central armed forces. Candidates' representatives are also allowed to keep a watch. On counting day, the strong room is opened in their presence, and the EVM seals are verified before the counting begins. As a final check, the VVPAT slips from five randomly selected polling stations per assembly segment are manually counted and matched with the EVM count. Only after this rigorous, multi-stage verification process is the final result compiled, declared by the Returning Officer, and made public. It is this final, declared data that forms the basis of our project's analysis.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2 class="text-2xl font-bold text-white mb-4">Chapter 3: Application Architecture and Technical Workflow</h2>
+                    <p class="mb-4">The application is built upon Django's robust Model-View-Template (MVT) architecture, a variant of the well-known Model-View-Controller (MVC) pattern. This architectural choice promotes a clean separation of concerns, making the application scalable, maintainable, and easier to debug. Here’s a step-by-step breakdown of how a user interaction translates into a result:</p>
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li>**HTTP Request:** The journey begins when a user interacts with the frontend. For instance, they select "Uttar Pradesh" from the state dropdown and click "View Results". The browser constructs and sends a GET request to the server. The URL might look like this: <code>http://127.0.0.1:8000/?state=Uttar+Pradesh&constituency=all</code>.</li>
+                        <li>**URL Routing:** The request first hits Django's main URL dispatcher (`ExitPollPro/urls.py`). This file acts as the project's primary switchboard. It sees that the path is the root (`''`) and, based on the `include('exitpoll.urls')` directive, forwards the request to the app-level URL file (`exitpoll/urls.py`). This second file then matches the path to the `ml_dashboard` view function.</li>
+                        <li>**View Logic (`views.py`):** The `ml_dashboard` function is the heart of the backend logic. It begins by reading the query parameters from the request object, i.e., `selected_state = 'Uttar Pradesh'`. It then uses Django's powerful Object-Relational Mapper (ORM) to communicate with the database. It constructs queries like `ExitPoll.objects.filter(state__name='Uttar Pradesh')` to fetch only the relevant data, avoiding the need to load the entire database into memory.</li>
+                        <li>**Data Processing & Machine Learning:** The filtered querysets are then converted into Pandas DataFrames. Pandas is used for complex data manipulations like aggregations (calculating total votes per party using `groupby` and `sum`) and transformations. If "All India" is selected, the complete dataset is used to train the Scikit-learn Logistic Regression model, and its accuracy is calculated.</li>
+                        <li>**Context Preparation for Frontend:** The view function meticulously gathers all the data required by the frontend—this includes lists of states for the dropdowns, labels and data points for the charts, rows for the tables, and the final accuracy score or prediction result. This data is packaged into a single Python dictionary called `context`. To ensure it can be safely and reliably read by JavaScript in the browser, all complex data structures within the context are serialized into JSON strings using Python's `json` library.</li>
+                        <li>**Template Rendering:** The `render()` function is called. This is a crucial Django shortcut that takes three main arguments: the request, the name of the template file (`'ml_dashboard.html'`), and the `context` dictionary. Django's template engine reads the HTML file, finds placeholders like `{{ selected_state }}` and `{{ seat_share_json|safe }}`, and injects the corresponding values from the `context`. The `|safe` filter is important here; it tells Django that the JSON string is safe and should be rendered as-is, without HTML escaping.</li>
+                        <li>**HTML Response:** The result of the rendering process is a complete HTML file, now populated with all the necessary data. This file is then packaged into an HTTP response and sent back to the user's browser. The browser receives this response, parses the HTML, and executes the embedded JavaScript code, which in turn uses Chart.js to draw the interactive charts and build the dynamic tables.</li>
+                    </ol>
+                </section>
+
+                <section class="card">
+                    <h2 class="text-2xl font-bold text-white mb-4">Chapter 4: The Data Engineering Pipeline</h2>
+                    <p class="mb-4">A cornerstone of this project was the ability to handle a large, real-world CSV file efficiently. A manual import process would be tedious and error-prone. To solve this, a custom Django management command, `loadelection2019`, was developed. This powerful script automates the entire data ingestion process, allowing a developer to populate the database with a single terminal command: <code>python manage.py loadelection2019</code>.</p>
+                    <h4 class="font-semibold text-indigo-400 mt-4">The `KeyError` Challenge: A Detective Story</h4>
+                    <p>During the initial development of the loading script, it consistently crashed with a `KeyError: 'TOTAL VOTES'`. This was perplexing because opening the CSV file in Microsoft Excel clearly showed a column with that exact name. This is a classic "real-world data" problem. The root cause, discovered after inspecting the file's raw text, was the presence of invisible, non-standard characters in the column headers within the CSV file. The actual header string in the file was not `'TOTAL VOTES'`, but rather `'TOTAL\nVOTES '`, containing both a newline character (`\n`) and trailing spaces. To a human reader in a spreadsheet program, this looks identical, but to a computer program like Python's Pandas library, they are completely different strings.</p>
+                    <p class="font-semibold text-green-400 mt-2">The Solution: Building a Resilient Ingestion Script</p>
+                    <p>To make the script robust against such common formatting issues, a data cleaning (or "sanitization") step was implemented at the very beginning of the process, immediately after loading the CSV into a DataFrame. The following two lines of code proved to be the elegant solution:</p>
+                    <pre class="bg-slate-900 p-3 rounded-lg text-sm mt-2"><code># 1. Remove all leading/trailing whitespace from every column name
+df.columns = df.columns.str.strip()
+# 2. Replace any newline characters within column names with a space
+df.columns = df.columns.str.replace('\\n', ' ')</code></pre>
+                    <p class="mt-2">This small but critical addition transformed the script from brittle to resilient. It now automatically handles common data formatting problems, ensuring a smooth and reliable data loading process. This experience served as a valuable lesson in defensive programming and the importance of never fully trusting raw data from external sources.</p>
+                </section>
+                
+                <section class="card">
+                    <h2 class="text-2xl font-bold text-white mb-4">Chapter 5: The Machine Learning Model Explained</h2>
+                    <p class="mb-4">The core predictive power of this application comes from a machine learning model. This section explains the entire process in a simple, step-by-step manner.</p>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-bold text-white">1. The Goal: What are we trying to predict?</h4>
+                            <p class="text-sm">Our goal is to predict the **winning political party** in each state. In machine learning terms, this is a **multi-class classification problem**. The "classes" are the different political parties (BJP, INC, AITC, etc.), and the model's job is to classify each state into one of these classes.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">2. The Features: What information does the model use?</h4>
+                            <p class="text-sm">A model cannot work with raw data directly. We need to provide it with "features" - numerical inputs that it can use to find patterns. We created these features by taking all the vote data and using a Pandas function called `pivot_table`. This transformed our data into a large table where:</p>
+                            <ul class="list-disc list-inside text-sm pl-4 mt-2">
+                                <li>Each **row** represents a **State**.</li>
+                                <li>Each **column** represents a **Political Party**.</li>
+                                <li>The **value** in each cell is the **total number of votes** that party received in that state.</li>
+                            </ul>
+                            <p class="text-sm mt-2">So, the model learns to associate a specific pattern of vote distribution across all parties with a particular winning party.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">3. The Model: Why Logistic Regression?</h4>
+                            <p class="text-sm">We chose the **Logistic Regression** algorithm. While there are more complex models, Logistic Regression is an excellent starting point because it is fast, easy to understand, and works well for this type of problem. It calculates the probability of each party winning based on the input vote patterns and picks the one with the highest probability.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">4. Training and Testing: How do we know if the model is good?</h4>
+                            <p class="text-sm">We don't show the model all the data at once. We split our dataset (of 36 states) into two parts:</p>
+                            <ul class="list-disc list-inside text-sm pl-4 mt-2">
+                                <li>**Training Set (approx. 70% of data):** The model "studies" this data to learn the patterns between vote distributions and winning parties.</li>
+                                <li>**Testing Set (approx. 30% of data):** This data is kept hidden from the model. After training, we use this set to test the model's knowledge, like a final exam.</li>
+                            </ul>
+                            <p class="font-semibold text-green-400 mt-2">The 87.5% Accuracy: This score means that on the "final exam" (the testing set), our model correctly predicted the winning party 87.5% of the time. This is a very strong result, especially given the small size of our dataset.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2 class="text-2xl font-bold text-white mb-4">Chapter 6: Frontend Design & User Experience (UI/UX)</h2>
+                    <p class="mb-4">The frontend of this application was designed with two primary goals: clarity and engagement. The aim was to create a user interface that is not only visually appealing but also makes complex data easy to navigate and understand.</p>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-bold text-white">1. The "Dark Theme" Choice</h4>
+                            <p class="text-sm">A dark, professional theme was chosen deliberately. Dark backgrounds reduce eye strain, especially during prolonged analysis sessions. More importantly, they make vibrant colors in charts and graphs "pop", drawing the user's attention to the most important data points. The "Cool Slate & Indigo" palette provides a modern, tech-focused aesthetic that feels premium and serious.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">2. The Sidebar Layout</h4>
+                            <p class="text-sm">A dedicated sidebar for filters was implemented to create a clear separation between controls and content. This keeps the main dashboard area clean and focused on data visualization. The user always knows where to go to change their view, leading to an intuitive user experience.</p>
+                        </div>
+                         <div>
+                            <h4 class="font-bold text-white">3. Dynamic Filtering and Interactivity</h4>
+                            <p class="text-sm">The core of the user experience is interactivity. The dropdowns are not static; the Constituency dropdown is dynamically populated using JavaScript based on the selected State. This "chained dropdown" logic is a key feature that makes the dashboard feel responsive and intelligent. The entire dashboard updates on a single "View Results" click, preventing jarring page reloads and creating a smooth, single-page application (SPA) feel.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">4. Animations and Visual Feedback</h4>
+                            <p class="text-sm">Subtle animations were added to make the interface feel more alive. Cards and charts use a "fade-in and slide-up" effect, which guides the user's eye as the page loads. Buttons and links have hover effects, providing immediate visual feedback that they are interactive. These small details contribute significantly to a polished and professional user experience.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2 class="text-2xl font-bold text-white mb-4">Chapter 7: Future Scope & Enhancements</h2>
+                    <p class="mb-4">This project has a strong foundation, but there are many exciting features that can be added to make it even more powerful and user-friendly. Here are some of the most promising ideas for future development:</p>
+                    <div class="space-y-4 mt-2 text-sm">
+                        <div>
+                            <h4 class="font-bold text-white">1. Geospatial Visualization (Interactive Maps)</h4>
+                            <p>This is the most impactful visual upgrade. We can integrate a library like **Leaflet.js** or **Mapbox** to create an interactive map of India. Each constituency could be a clickable, color-coded polygon, showing the winning party. Hovering over a constituency could show a tooltip with the winning candidate and margin, while clicking on it would update the main dashboard to show detailed results for that area. This would provide a much more intuitive and geographical way for users to explore the data.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">2. Advanced Machine Learning Models</h4>
+                            <p>While Logistic Regression provides a good baseline, more complex "ensemble" models like **Random Forest** or **Gradient Boosting (XGBoost)** could be integrated. These models often provide higher accuracy by combining the predictions of many small models. The application could be enhanced to allow users to select which model to use for prediction and then compare their accuracies and results side-by-side. This would transform the project into a true data science experimentation platform.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">3. Comparative Analysis (Year-on-Year)</h4>
+                            <p>A highly valuable feature for political analysts would be the ability to load data from previous elections (e.g., 2014) and compare it with the 2019 results. The dashboard could then visualize the **"swing"** in vote share and seats for each party in different states. New charts could be added to highlight the biggest gains and losses, providing deep insights into changing political trends over time.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">4. User Authentication and Custom Reports</h4>
+                            <p>Implementing a user login system (using Django's built-in authentication) would open up a world of personalization. Authenticated users could save their filtered views, create custom dashboards with charts of their choice, add their own notes or analysis, and export their findings as a downloadable **PDF report**. This would transform the application from a public viewer into a personal, professional analysis tool.</p>
+                        </div>
+                         <div>
+                            <h4 class="font-bold text-white">5. Sentiment Analysis Integration (Cutting-Edge Feature)</h4>
+                            <p>For a truly advanced feature, a data pipeline could be built to scrape data from social media (like Twitter/X) or news articles related to the election. **Natural Language Processing (NLP)** models could then be used to analyze the public sentiment (positive, negative, neutral) for different parties and key candidates. This sentiment score could be displayed on the dashboard as a "Public Mood" indicator and even used as an additional, powerful feature for the prediction model.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2 class="text-2xl font-bold text-white mb-4">Chapter 8: Deployment Guide (How to Make this Website Live)</h2>
+                    <p class="mb-4">Taking a Django project from your local computer to a live server on the internet is called deployment. The `python manage.py runserver` command is only for development and cannot handle real traffic. Here is a step-by-step guide to deploying this project for free on a modern platform like **Render.com**.</p>
+                    <div class="space-y-4 text-sm">
+                        <div>
+                            <h4 class="font-bold text-white">Step 1: Code Preparation for Production</h4>
+                            <p>First, we need to make some changes to our project to make it ready for a live environment. This includes installing a production-grade server (Gunicorn), a tool for serving static files (WhiteNoise), and configuring our database settings.</p>
+                            <p class="mt-2">Your `requirements.txt` file should be updated to include:</p>
+                            <pre class="bg-slate-900 p-3 rounded-lg text-xs mt-2"><code>gunicorn
+whitenoise[brotli]
+dj-database-url
+psycopg2-binary</code></pre>
+                            <p class="mt-2">You will also need to modify `settings.py` to use these tools, set `DEBUG = False`, and configure `ALLOWED_HOSTS`.</p>
+                        </div>
+                         <div>
+                            <h4 class="font-bold text-white">Step 2: Create a `build.sh` file</h4>
+                            <p>In your main project directory (where `manage.py` is), create a file named `build.sh`. This script will tell the hosting server how to prepare your project for deployment.</p>
+                             <pre class="bg-slate-900 p-3 rounded-lg text-xs mt-2"><code>#!/usr/bin/env bash
+# exit on error
+set -o errexit
+
+pip install -r requirements.txt
+
+python manage.py collectstatic --no-input
+python manage.py migrate</code></pre>
+                        </div>
+                         <div>
+                            <h4 class="font-bold text-white">Step 3: Sign Up on Render & Create a Database</h4>
+                            <p>Go to `render.com` and sign up using your GitHub account. In the dashboard, create a new **PostgreSQL** database. Render will provide you with an "Internal Database URL". Copy this URL; you will need it later.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Step 4: Create the Web Service</h4>
+                            <p>In the Render dashboard, create a "New Web Service" and connect it to your project's GitHub repository. Configure the settings as follows:</p>
+                             <ul class="list-disc list-inside pl-4 mt-2">
+                                <li>**Build Command:** `bash build.sh`</li>
+                                <li>**Start Command:** `gunicorn ExitPollPro.wsgi`</li>
+                             </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Step 5: Set Environment Variables</h4>
+                            <p>In the "Environment" tab of your web service on Render, you need to add two secret variables:</p>
+                             <ul class="list-disc list-inside pl-4 mt-2">
+                                 <li><code>DATABASE_URL</code>: Paste the Internal Database URL you copied from your Render database.</li>
+                                 <li><code>SECRET_KEY</code>: Add a new, long, random string here for security.</li>
+                             </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Step 6: Deploy and Load Data</h4>
+                            <p>Click "Create Web Service". Render will automatically start building and deploying your project. Once it's live, use Render's "Shell" tab to run your custom commands to populate the live database:</p>
+                            <pre class="bg-slate-900 p-3 rounded-lg text-xs mt-2"><code>python manage.py loadelection2019
+python manage.py createsuperuser</code></pre>
+                             <p class="mt-2">After these steps, your website will be live on the internet at the URL provided by Render!</p>
+                        </div>
+                    </div>
+                </section>
+                
+
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+

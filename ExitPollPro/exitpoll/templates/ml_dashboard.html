@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RKS Data Labs - Election Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display.swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0f172a; /* Dark blue-slate background */
+            color: #e2e8f0;
+        }
+        .app-grid {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+        .card {
+            background-color: #1e293b; /* Darker card background */
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #334155;
+        }
+        .chart-container { 
+            position: relative; 
+            height: 320px; 
+            width: 100%; 
+        }
+        select, input {
+            background-color: #334155;
+            border-color: #475569;
+        }
+        @media (max-width: 1024px) {
+            .app-grid { grid-template-columns: 1fr; }
+            .sidebar { display: none; } /* Hide sidebar on smaller screens for simplicity */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-grid">
+        <!-- Sidebar -->
+        <aside class="sidebar bg-slate-900 p-6 flex flex-col">
+            <a href="{% url 'ml_dashboard' %}" class="flex items-center space-x-3 mb-8">
+                <svg class="w-10 h-10 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                </svg>
+                <span class="text-2xl font-bold text-white">RKS Data Labs</span>
+            </a>
+            
+            <form id="filterForm" method="GET" action="">
+                <div class="flex flex-col space-y-4">
+                    <div>
+                        <label for="state" class="block text-sm font-medium text-slate-400 mb-1">State</label>
+                        <select id="state" name="state" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 transition text-white">
+                            <option value="all">All India</option>
+                            {% for state in all_states %}
+                                <option value="{{ state }}" {% if state == selected_state %}selected{% endif %}>{{ state }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="constituency" class="block text-sm font-medium text-slate-400 mb-1">Constituency</label>
+                        <select id="constituency" name="constituency" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 transition text-white" disabled>
+                            <option value="all">— Select —</option>
+                        </select>
+                    </div>
+                    <div class="pt-2">
+                        <button type="submit" class="w-full px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-transform transform hover:scale-105 shadow-md">View Results</button>
+                    </div>
+                </div>
+            </form>
+
+        </aside>
+
+        <!-- Main Content -->
+        <main class="p-4 md:p-6 lg:p-8 overflow-y-auto">
+            <header class="mb-6">
+                <h1 class="text-4xl font-extrabold tracking-tight text-white">Dashboard</h1>
+                <p class="text-slate-400 mt-2">2019 Lok Sabha Election Analysis</p>
+            </header>
+
+            <nav class="mb-8 flex space-x-6 border-b border-slate-700">
+                <a href="{% url 'ml_dashboard' %}" class="py-2 px-1 border-b-2 border-indigo-500 text-white font-semibold">Home</a>
+                <a href="{% url 'report_page' %}" class="py-2 px-1 border-b-2 border-transparent text-slate-400 hover:text-white hover:border-slate-400 transition-colors">Report</a>
+                <a href="{% url 'feedback_page' %}" class="py-2 px-1 border-b-2 border-transparent text-slate-400 hover:text-white hover:border-slate-400 transition-colors">Feedback</a>
+            </nav>
+
+            <!-- Key Metrics -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="card">
+                    <h3 class="text-sm font-medium text-slate-400">Selected Region</h3>
+                    <p class="text-3xl font-bold text-white mt-2 truncate" id="selectedRegion">All India</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-sm font-medium text-slate-400">Majority Mark</h3>
+                    <p class="text-3xl font-bold text-white mt-2">272</p>
+                </div>
+                <div class="card bg-emerald-500/20 border-emerald-500">
+                    <h3 class="text-sm font-medium text-emerald-300" id="metricTitle">{{ display_metric_title }}</h3>
+                    <p class="text-3xl font-bold text-emerald-400 mt-2">{{ display_metric_value }}</p>
+                </div>
+            </section>
+            
+            <!-- Main Visualizations & Table -->
+            <section class="space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                    <div class="lg:col-span-3 card">
+                        <h2 class="text-lg font-semibold text-white mb-4" id="mainChartTitle">{{ main_chart_title }}</h2>
+                        <div class="chart-container">
+                            <canvas id="seatShareChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 card">
+                        <h2 class="text-lg font-semibold text-white mb-4">Vote Share (Top 10)</h2>
+                        <div class="chart-container">
+                            <canvas id="voteShareChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-white">Performance Details</h2>
+                        <a href="{% url 'raw_data_dashboard' %}" class="text-sm font-medium text-indigo-400 hover:underline">View All Raw Data →</a>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead id="performanceTableHead"></thead>
+                            <tbody id="performanceTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Data from Django
+        const constituenciesByState = {{ constituencies_by_state_json|safe }};
+        const voteShareData = {{ vote_share_json|safe }};
+        const performanceTableData = {{ performance_table_json|safe }};
+        const performanceTableHeaders = {{ performance_table_headers_json|safe }};
+        const seatShareData = {{ seat_share_json|safe }};
+        const selectedState = "{{ selected_state }}";
+        const selectedConstituency = "{{ selected_constituency }}";
+
+        const CHART_COLORS = ['#6366f1', '#10b981', '#f59e0b', '#3b82f6', '#ec4899', '#64748b', '#ef4444', '#8b5cf6'];
+
+        function updateConstituencyDropdown() {
+            const stateDropdown = document.getElementById('state');
+            const constituencyDropdown = document.getElementById('constituency');
+            const currentState = stateDropdown.value;
+            constituencyDropdown.innerHTML = '<option value="all">— Select —</option>';
+            if (currentState !== 'all' && constituenciesByState[currentState]) {
+                constituencyDropdown.disabled = false;
+                constituenciesByState[currentState].forEach(c => {
+                    const option = document.createElement('option');
+                    option.value = c;
+                    option.textContent = c;
+                    if (c === selectedConstituency) option.selected = true;
+                    constituencyDropdown.appendChild(option);
+                });
+            } else {
+                constituencyDropdown.disabled = true;
+            }
+        }
+
+        function renderDashboard() {
+            const regionText = selectedConstituency !== 'all' ? selectedConstituency : (selectedState === 'all' ? 'All India' : selectedState);
+            document.getElementById('selectedRegion').textContent = regionText;
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.color = '#94a3b8';
+
+            // Main Chart (Bar)
+            if (window.seatChart) window.seatChart.destroy();
+            const seatShareCtx = document.getElementById('seatShareChart').getContext('2d');
+            window.seatChart = new Chart(seatShareCtx, {
+                type: 'bar',
+                data: { labels: seatShareData.labels || [], datasets: [{ label: 'Seats/Votes', data: seatShareData.data || [], backgroundColor: CHART_COLORS, borderRadius: 5 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks:{color: '#94a3b8'} }, x: { grid: { display: false }, ticks:{color: '#94a3b8'} } } }
+            });
+
+            // Vote Share Chart (Doughnut)
+            if (window.voteChart) window.voteChart.destroy();
+            const voteShareCtx = document.getElementById('voteShareChart').getContext('2d');
+            window.voteChart = new Chart(voteShareCtx, {
+                type: 'doughnut',
+                data: { labels: voteShareData.labels || [], datasets: [{ label: 'Share', data: voteShareData.data || [], backgroundColor: CHART_COLORS, borderColor: '#1e293b', borderWidth: 4 }] },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 20, color: '#94a3b8' } } } }
+            });
+
+            // Performance Table
+            const tableHead = document.getElementById('performanceTableHead');
+            const tableBody = document.getElementById('performanceTableBody');
+            tableHead.innerHTML = `<tr>${performanceTableHeaders.map(h => `<th class="py-3 px-4 text-sm font-semibold text-slate-400 border-b border-slate-700">${h}</th>`).join('')}</tr>`;
+            if (performanceTableData && performanceTableData.length > 0) {
+                 if (selectedConstituency !== 'all') { // Candidate view
+                    tableBody.innerHTML = performanceTableData.map(p => `
+                        <tr class="border-b border-slate-800 last:border-b-0">
+                            <td class="py-3 px-4 font-medium text-white">${p.candidate}</td>
+                            <td class="py-3 px-4 text-slate-300">${p.party}</td>
+                            <td class="py-3 px-4 font-bold text-indigo-400">${p.votes.toLocaleString('en-IN')}</td>
+                        </tr>`).join('');
+                 } else { // Party view
+                    tableBody.innerHTML = performanceTableData.map(p => `
+                        <tr class="border-b border-slate-800 last:border-b-0">
+                            <td class="py-3 px-4 font-medium text-white">${p.party}</td>
+                            <td class="py-3 px-4 font-bold text-indigo-400">${p.seats}</td>
+                            <td class="py-3 px-4 text-slate-300">${p.votes}</td>
+                        </tr>`).join('');
+                 }
+            } else {
+                tableBody.innerHTML = `<tr><td colspan="${performanceTableHeaders.length}" class="text-center p-8 text-slate-400">No data available.</td></tr>`;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            updateConstituencyDropdown();
+            renderDashboard();
+        });
+
+        document.getElementById('state').addEventListener('change', updateConstituencyDropdown);
+    </script>
+</body>
+</html>
+
