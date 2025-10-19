@@ -12,7 +12,7 @@
     <style>
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: #0f172a; /* Dark blue-slate background */
+            background-color: #0f172a;
             color: #e2e8f0;
         }
         .app-grid {
@@ -21,7 +21,7 @@
             min-height: 100vh;
         }
         .card {
-            background-color: #1e293b; /* Darker card background */
+            background-color: #1e293b;
             border-radius: 12px;
             padding: 24px;
             border: 1px solid #334155;
@@ -37,7 +37,7 @@
         }
         @media (max-width: 1024px) {
             .app-grid { grid-template-columns: 1fr; }
-            .sidebar { display: none; } /* Hide sidebar on smaller screens for simplicity */
+            .sidebar { display: none; }
         }
     </style>
 </head>
@@ -75,7 +75,6 @@
                     </div>
                 </div>
             </form>
-
         </aside>
 
         <!-- Main Content -->
@@ -107,7 +106,7 @@
                 </div>
             </section>
             
-            <!-- Main Visualizations & Table -->
+            <!-- Charts and Table -->
             <section class="space-y-6">
                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
                     <div class="lg:col-span-3 card">
@@ -140,12 +139,12 @@
     </div>
 
     <script>
-        // Data from Django
-        const constituenciesByState = {{ constituencies_by_state_json|safe }};
-        const voteShareData = {{ vote_share_json|safe }};
-        const performanceTableData = {{ performance_table_json|safe }};
-        const performanceTableHeaders = {{ performance_table_headers_json|safe }};
-        const seatShareData = {{ seat_share_json|safe }};
+        // ✅ Safe JSON parsing (fixes lint & template errors)
+        const constituenciesByState = JSON.parse('{{ constituencies_by_state_json|escapejs }}');
+        const voteShareData = JSON.parse('{{ vote_share_json|escapejs }}');
+        const performanceTableData = JSON.parse('{{ performance_table_json|escapejs }}');
+        const performanceTableHeaders = JSON.parse('{{ performance_table_headers_json|escapejs }}');
+        const seatShareData = JSON.parse('{{ seat_share_json|escapejs }}');
         const selectedState = "{{ selected_state }}";
         const selectedConstituency = "{{ selected_constituency }}";
 
@@ -176,16 +175,30 @@
             Chart.defaults.font.family = "'Inter', sans-serif";
             Chart.defaults.color = '#94a3b8';
 
-            // Main Chart (Bar)
             if (window.seatChart) window.seatChart.destroy();
             const seatShareCtx = document.getElementById('seatShareChart').getContext('2d');
             window.seatChart = new Chart(seatShareCtx, {
                 type: 'bar',
-                data: { labels: seatShareData.labels || [], datasets: [{ label: 'Seats/Votes', data: seatShareData.data || [], backgroundColor: CHART_COLORS, borderRadius: 5 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks:{color: '#94a3b8'} }, x: { grid: { display: false }, ticks:{color: '#94a3b8'} } } }
+                data: {
+                    labels: seatShareData.labels || [],
+                    datasets: [{
+                        label: 'Seats/Votes',
+                        data: seatShareData.data || [],
+                        backgroundColor: CHART_COLORS,
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks:{color: '#94a3b8'} },
+                        x: { grid: { display: false }, ticks:{color: '#94a3b8'} }
+                    }
+                }
             });
 
-            // Vote Share Chart (Doughnut)
             if (window.voteChart) window.voteChart.destroy();
             const voteShareCtx = document.getElementById('voteShareChart').getContext('2d');
             window.voteChart = new Chart(voteShareCtx, {
@@ -194,26 +207,25 @@
                 options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 20, color: '#94a3b8' } } } }
             });
 
-            // Performance Table
             const tableHead = document.getElementById('performanceTableHead');
             const tableBody = document.getElementById('performanceTableBody');
             tableHead.innerHTML = `<tr>${performanceTableHeaders.map(h => `<th class="py-3 px-4 text-sm font-semibold text-slate-400 border-b border-slate-700">${h}</th>`).join('')}</tr>`;
             if (performanceTableData && performanceTableData.length > 0) {
-                 if (selectedConstituency !== 'all') { // Candidate view
+                if (selectedConstituency !== 'all') {
                     tableBody.innerHTML = performanceTableData.map(p => `
                         <tr class="border-b border-slate-800 last:border-b-0">
                             <td class="py-3 px-4 font-medium text-white">${p.candidate}</td>
                             <td class="py-3 px-4 text-slate-300">${p.party}</td>
                             <td class="py-3 px-4 font-bold text-indigo-400">${p.votes.toLocaleString('en-IN')}</td>
                         </tr>`).join('');
-                 } else { // Party view
+                } else {
                     tableBody.innerHTML = performanceTableData.map(p => `
                         <tr class="border-b border-slate-800 last:border-b-0">
                             <td class="py-3 px-4 font-medium text-white">${p.party}</td>
                             <td class="py-3 px-4 font-bold text-indigo-400">${p.seats}</td>
                             <td class="py-3 px-4 text-slate-300">${p.votes}</td>
                         </tr>`).join('');
-                 }
+                }
             } else {
                 tableBody.innerHTML = `<tr><td colspan="${performanceTableHeaders.length}" class="text-center p-8 text-slate-400">No data available.</td></tr>`;
             }
@@ -228,4 +240,3 @@
     </script>
 </body>
 </html>
-
