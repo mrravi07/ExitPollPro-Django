@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=28&pause=1000&color=58A6FF&center=true&vCenter=true&width=900&lines=Election+Intelligence+Platform;Election+Analytics+%26+Visualization;Django+%7C+Machine+Learning+%7C+Data+Analytics" />
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=28&pause=1000&color=58A6FF&center=true&vCenter=true&width=900&lines=Election+Intelligence+Platform;Election+Analytics+Dashboard;Django+%7C+Data+Analytics+%7C+Machine+Learning" />
 </p>
 
 <h3 align="center">
@@ -12,85 +12,62 @@ Transforming Electoral Data into Interactive Insights
   <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas"/>
   <img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy"/>
   <img src="https://img.shields.io/badge/ScikitLearn-F7931E?style=for-the-badge&logo=scikitlearn"/>
-  <img src="https://img.shields.io/badge/Matplotlib-11557C?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite"/>
 </p>
 
 ---
 
-## Overview
+# 📊 Overview
 
-Election Intelligence Platform is a web-based analytics solution designed to explore, visualize, and analyze electoral datasets through interactive dashboards and constituency-level intelligence.
+Election Intelligence Platform is a Django-based analytics application designed to explore, analyze, and visualize election data through interactive dashboards and constituency-level insights.
 
-The platform enables users to evaluate election outcomes, compare political party performance, analyze vote and seat distribution, and identify regional trends through data-driven visualizations and reporting.
-
-By combining analytics, visualization, and reporting capabilities into a unified application, the platform provides a structured environment for understanding complex electoral data.
+The platform enables users to evaluate vote share, seat share, party performance, and election outcomes using data-driven analytics and visualization techniques.
 
 ---
 
-## Application Preview
+# ✨ Key Features
 
-> Replace these screenshots with your own project screenshots.
-
-<p align="center">
-  <img src="images/dashboard.png" width="48%">
-  <img src="images/analytics.png" width="48%">
-</p>
-
-<p align="center">
-  <img src="images/vote-share.png" width="48%">
-  <img src="images/report.png" width="48%">
-</p>
-
----
-
-## Core Capabilities
-
-### Election Analytics
-
-- State-Level Analysis
-- Constituency-Level Analysis
+### 📈 Election Analytics
+- State-wise Election Analysis
+- Constituency-wise Analysis
 - Candidate Performance Evaluation
 - Political Party Performance Tracking
 - Comparative Election Analysis
 
-### Data Visualization
-
-- Vote Share Analytics
+### 📊 Interactive Dashboards
+- Vote Share Analysis
 - Seat Share Distribution
-- Interactive Dashboards
-- Electoral Trend Analysis
-- Performance Comparison Reports
+- Election Trend Visualization
+- Performance Comparison
 
-### Reporting
-
+### 📋 Reporting
 - Election Summary Reports
 - Constituency Reports
 - Analytical Insights
 - Structured Data Exploration
 
-### Data Management
-
+### 🗄️ Data Management
 - Historical Election Dataset Integration
 - Data Processing & Transformation
 - Election Record Management
-- Dataset Exploration
 
 ---
 
-## Technology Stack
+# 🖼️ Application Preview
 
-| Category | Technologies |
-|-----------|-------------|
-| Backend | Django, Python |
-| Data Processing | Pandas, NumPy |
-| Analytics | Scikit-Learn |
-| Visualization | Matplotlib, Seaborn |
-| Data Handling | OpenPyXL |
-| Database | SQLite |
+<p align="center">
+  <img src="./dashboard.png" width="48%">
+  <img src="./analytics.png" width="48%">
+</p>
+
+<p align="center">
+  <img src="./vote-share.png" width="48%">
+  <img src="./report.png" width="48%">
+</p>
 
 ---
 
-## System Architecture
+# 🏗️ System Architecture
 
 ```mermaid
 flowchart TD
@@ -111,37 +88,36 @@ F --> G[Interactive Dashboards]
 G --> H[Reports & Insights]
 ```
 
-## Analytics Modules
+# ⚙️ Technology Stack
 
-| Module | Description |
-|----------|------------|
-| Vote Share Analytics | Analyze voting distribution across parties |
-| Seat Share Analytics | Evaluate winning seats and party dominance |
-| Constituency Intelligence | Constituency-level performance insights |
-| Performance Analytics | Compare political and regional performance |
-| Election Reporting | Generate structured analytical reports |
+| Category | Technologies |
+|-----------|-------------|
+| Backend | Django, Python |
+| Data Processing | Pandas, NumPy |
+| Analytics | Scikit-Learn |
+| Visualization | Matplotlib, Seaborn |
+| Data Handling | OpenPyXL |
+| Database | SQLite |
 
 ---
 
-## Project Structure
+# 📂 Project Structure
 
 ```text
 Election-Intelligence-Platform
 │
-├── Dashboard
-├── Analytics
-├── Vote Share Analysis
-├── Seat Share Analysis
-├── Constituency Intelligence
-├── Reports
-├── Feedback Module
-├── Dataset Explorer
-└── Data Processing Components
+├── ExitPollPro/
+├── dashboard.png
+├── analytics.png
+├── vote-share.png
+├── report.png
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-## Installation
+# 🚀 Installation
 
 ### Clone Repository
 
@@ -169,13 +145,13 @@ python manage.py migrate
 python manage.py loadelection2019
 ```
 
-### Run Application
+### Run Development Server
 
 ```bash
 python manage.py runserver
 ```
 
-Visit:
+Open:
 
 ```text
 http://127.0.0.1:8000
@@ -183,28 +159,43 @@ http://127.0.0.1:8000
 
 ---
 
-## Roadmap
+# 📊 Analytics Modules
 
-- Multi-Election Year Analytics
+| Module | Description |
+|----------|------------|
+| Vote Share Analytics | Analyze voting distribution across parties |
+| Seat Share Analytics | Evaluate winning seats and party dominance |
+| Constituency Intelligence | Constituency-level performance insights |
+| Performance Analytics | Compare political and regional performance |
+| Election Reporting | Generate structured analytical reports |
+
+---
+
+# 🔮 Future Enhancements
+
+- Multi-Election Year Analysis
 - Geographic Election Mapping
+- Real-Time Election Data Integration
 - Predictive Election Analytics
-- Automated Reporting
-- AI-Assisted Election Insights
+- AI-Assisted Election Reporting
 - Advanced Comparative Analytics
 
 ---
 
-## Author
+# 👨‍💻 Author
 
 ### Ravi Kumar Singh
 
-Data Engineer | AI Engineer
+**Data Engineer | AI Engineer**
 
 💼 LinkedIn  
-www.linkedin.com/in/ravi-kumar-singh-99777a2a6
+https://www.linkedin.com/in/ravi-kumar-singh-99777a2a6
 
 💻 GitHub  
-github.com/mrravi07
+https://github.com/mrravi07
+
+🌐 Portfolio  
+https://mrravi07.vercel.app
 
 ---
 
